@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+
 import Menubar from './menuBar.jsx'
 import Board from './board.jsx'
+
+
 
 class PathfindingVisualizerApp extends Component {
 	constructor(props) {
@@ -12,11 +17,11 @@ class PathfindingVisualizerApp extends Component {
 	
 	render() {
 		return (
-			<div>
-				<h1>Helllo World</h1>
+			<Container fluid='sm'>
+				<h1>Pathfinding Visualizer</h1>
 				<Menubar />
 				<Board />
-			</div>
+			</Container>
 		);
 	}
 }
