@@ -1,27 +1,38 @@
 import React, { Component } from 'react'
+import Cell from './cell.jsx'
 
 class Board extends Component {
 	constructor(props) {
 		super(props)
-		this.canvasRef = React.createRef()
+		
+		this.width = window.innerWidth;
+		this.height = window.innerHeight;
+		this.cellSize = 25;
+		
+		this.maxWidth = Math.floor(this.width / this.cellSize) - 1;
+		this.maxHeight = Math.floor(this.height / this.cellSize) - 1;
+
 		this.state = {
-			
+			start: [],
+			finish: [],
+			grid: new Array(this.maxHeight).fill(0).map(() => new Array(this.maxWidth).fill(0)) 
 		}
 	}
-	
-	componentDidMount() {
-		const canvas = this.canvasRef.current;
-		const context = canvas.getContext('2d');
-		context.canvas.width = window.innerWidth;
-		context.canvas.height = window.innerHeight;
-		context.fillRect(0, 0, canvas.width, canvas.height);
-	}
-
 
 	render() {
-		return(
+		
+		let board = this.state.grid.map((row, i) => { return (
+			<tr key={'row_'+i}>
+				{row.map((col, j) => {
+					return (<Cell key={i+'_'+j}/>)
+					})
+				}
+			</tr>
+		)})
+
+		return (
 			<div>
-				<canvas ref={this.canvasRef} />
+				{board} 	
 			</div>
 		); 
 	}
