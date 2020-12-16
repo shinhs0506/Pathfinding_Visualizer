@@ -8,8 +8,8 @@ class Cell extends Component {
 		}
 	}
 
-
 	render() {
+		let colour = this.props.value ? 'grey' : 'white'
 		return (
 			<td 
 				style={{
@@ -20,13 +20,14 @@ class Cell extends Component {
 					color: 'red',
 					boardColor: 'black',
 					border: '.5px solid black'
-				}}>
+				}}
+			onClick={this.props.handleClick}	>
 				<div
 					style={{
-						color: 'blue',
+						color: colour,
 						border: '1px solid',
-						backgroundColor: 'blue',
-						borderColor: 'blue',
+						backgroundColor: colour,
+						borderColor: colour,
 						height:25}} />
 			</td>	
 
