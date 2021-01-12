@@ -1,0 +1,26 @@
+.cell {
+	width: 25px;
+	height: 25px;
+	outline: 1px solid black;
+	display: inline-block;
+}
+
+.cell-start {
+	background-color: green;
+}
+
+.cell-finish {
+	background-color: red;
+}
+
+.cell-wall {
+	background-color: grey;
+}
+
+.cell-visited {
+	background-color: yellow;
+}
+
+.cell-path {
+	background-color: blue;
+}

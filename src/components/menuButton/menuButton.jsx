@@ -11,8 +11,9 @@ class MenuButton extends Component {
 	}
 
 	render(){
+		let n = this.state.name;
 		return (
-			<Button variant={ this.state.variant }>{ this.state.name }</Button>
+			<Button variant={ this.state.variant } onClick={() => this.props.handleButtonClick(n)}>{ this.state.name }</Button>
 		);
 	}
 }
