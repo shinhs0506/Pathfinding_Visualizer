@@ -2,32 +2,30 @@ import React, { Component } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Button from 'react-bootstrap/Button'
 
 import './pathfindingVisualizerApp.css';
 
-import MenuButton from './menuButton/menuButton.jsx'
 import Cell from './cell/cell.jsx'
 
-
-// import Bfs from '../algorithms/bfs.js'
+import Bfs from '../algorithms/bfs.js'
 
 
 class PathfindingVisualizerApp extends Component {
 	constructor(props) {
 		super(props);
 		
-		this.initStartX = 3;
-		this.initStartY = 3;
-		this.initFinishX = 6;
-		this.initFinishY = 8;
+		this.initStartR = 3;
+		this.initStartC = 3;
+		this.initFinishR = 6;
+		this.initFinishC = 8;
 
 		this.state = {
 			algorithms: ['bfs', 'dfs'],
 			algorithm: 'bfs',
-			boardActions: ['start', 'clear', 'reset'],
 			grid: [],
-			start: [this.initStartX, this.initStartY],
-			finish: [this.initFinishX, this.initFinishY],
+			start: [this.initStartR, this.initStartC],
+			finish: [this.initFinishR, this.initFinishC],
 		};
 		this.handleAlgorithmChange = this.handleAlgorithmChange.bind(this);
 		
@@ -45,8 +43,8 @@ class PathfindingVisualizerApp extends Component {
 			let tmp = []
 			for (let col=0; col < w; col++){
 				let cell = {
-						isStart: (row === this.initStartY) && (col === this.initStartX),
-						isFinish: (row === this.initFinishY) && (col === this.initFinishX),
+						isStart: (row === this.state.start[0]) && (col === this.state.start[1]),
+						isFinish: (row === this.state.finish[0]) && (col === this.state.finish[1]),
 						isWall: false,
 						isVisited: false
 					}
@@ -64,15 +62,50 @@ class PathfindingVisualizerApp extends Component {
 	}
 
 	handleStart() {
-		// pass
+		let algo = new Bfs(this.state.grid, this.state.start, this.state.finish)
+		let {explored, shortestPath} = algo.solve()
+		let promises = []
+		for (let i = 0; i < explored.length; i++){
+			let p = new Promise((resolve, reject) => {
+			setTimeout(() => {
+				document.getElementById('cell-'+explored[i][0]+'-'+explored[i][1]).className = 'cell cell-visited';
+				resolve()
+				}, 20 * i);
+			});
+			promises.push(p);
+		}
+		Promise.all(promises).then(() => {
+			for (let j = 0; j < shortestPath.length; j++){
+				setTimeout(() => {
+				document.getElementById('cell-'+shortestPath[j][0]+'-'+shortestPath[j][1]).className = 'cell cell-path';
+				}, 20 * j);
+			}
+		});
 	}
 
 	handleClear() {
-		// pass
+		let newGrid = this.state.grid.slice();
+		for (let i = 0; i < newGrid.length; i++){
+			for (let j = 0; j < newGrid[0].length; j++){
+				newGrid[i][j].isVisited = false;
+				let element = document.getElementById('cell-'+i+'-'+j);
+				if (element.className === 'cell cell-visited' || element.className === 'cell cell-path') {
+					element.className = 'cell'
+				}
+			}
+		}
+		this.setState({grid: newGrid})
 	}
 
 	handleReset() {
-		// pass
+		this.handleClear()
+		let newGrid = this.state.grid.slice();
+		for (let i = 0; i < newGrid.length; i++){
+			for (let j = 0; j < newGrid[0].length; j++){
+				newGrid[i][j].isWall = false;
+			}
+		}
+		this.setState({grid: newGrid})
 	}
 
 	handleMouseDown(row, col) {
@@ -104,9 +137,9 @@ class PathfindingVisualizerApp extends Component {
 				))}
 				<Row>
 					<ButtonGroup>
-						<MenuButton name='start' onClick={this.handleClick}/>
-						<MenuButton name='clear' onClick={this.handleClear}/>
-						<MenuButton name='reset' onClick={this.handleReset}/>
+						<Button onClick={this.handleStart}>Start</ Button>
+						<Button onClick={this.handleClear}>Clear</ Button>
+						<Button onClick={this.handleReset}>Reset</ Button>
 					</ ButtonGroup>
 				</ Row>
 				<Row>

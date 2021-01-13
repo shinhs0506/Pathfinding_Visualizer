@@ -20,13 +20,10 @@ class Cell extends Component {
 			classname = 'cell-finish';
 		} else if (isWall) {
 			classname = 'cell-wall';
-		} else if (isVisited) {
-			classname = 'cell-visited';
 		}
-		console.log(isWall)
 		return (
 			<div
-				id={'cell-${row}-${col}'}
+				id={'cell-'+row+'-'+col}
 				className={'cell '+classname}
 				onMouseDown={() => onMouseDown(row, col)}
 			>

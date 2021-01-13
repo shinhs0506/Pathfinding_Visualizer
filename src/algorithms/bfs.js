@@ -9,10 +9,34 @@ class Bfs {
 		this.queue.push([this.start])
 	}
 
+	solve(){
+		let shortestPath = []
+		let explored = []
+		while(!this.isFrontierEmpty()){
+			let path = this.dequeue();
+			let isFinished = this.checkFinished(path);
+			let curr =path[path.length - 1];
+			explored.push(curr)
+			if (isFinished){
+				shortestPath = path;
+				break;
+			} else {
+				let neighbours = this.getNeighbours(path);
+				for (let n of neighbours) {
+					let tmp = path.slice()
+					tmp.push(n);
+					this.enqueue(tmp)
+					this.graph[n[0]][n[1]].isVisited = true;
+				}		
+			}
+		}
+		explored = explored.slice(1, explored.length-1);
+		shortestPath = shortestPath.slice(1, shortestPath.length-1);
+		return {explored, shortestPath};
+	}
 
 	enqueue(path) {
 		this.queue.push(path);
-		return path[path.length - 1]
 	}
 
 	dequeue() {
@@ -37,7 +61,7 @@ class Bfs {
 			let tmp = last.slice();
 			tmp[0] += d[0];
 			tmp[1] += d[1];
-			if (!this.outOfBound(tmp) && (this.graph[tmp[0]][tmp[1]] === 0 || this.graph[tmp[0]][tmp[1]] === 3)){
+			if (!this.outOfBound(tmp) && !this.graph[tmp[0]][tmp[1]].isWall && !this.graph[tmp[0]][tmp[1]].isVisited && !this.graph[tmp[0]][tmp[1]].isStart) {
 				res.push(tmp);	
 			}
 		}
