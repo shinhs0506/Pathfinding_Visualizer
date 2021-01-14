@@ -8,7 +8,7 @@ import './pathfindingVisualizerApp.css';
 
 import Cell from './cell/cell.jsx'
 
-import Bfs from '../algorithms/bfs.js'
+import AlgorithmFactory from '../algorithms/algorithmFactory.js'
 
 
 class PathfindingVisualizerApp extends Component {
@@ -16,9 +16,9 @@ class PathfindingVisualizerApp extends Component {
 		super(props);
 		
 		this.initStartR = 3;
-		this.initStartC = 3;
-		this.initFinishR = 6;
-		this.initFinishC = 8;
+		this.initStartC = 4;
+		this.initFinishR = 20;
+		this.initFinishC = 18;
 
 		this.state = {
 			algorithms: ['bfs', 'dfs'],
@@ -36,8 +36,8 @@ class PathfindingVisualizerApp extends Component {
 	}	
 
 	componentDidMount() {
-		let w = 10;
-		let h = 10;
+		let w = 25;
+		let h = 25;
 		let initialGrid = [];
 		for (let row=0; row < h; row++){
 			let tmp = []
@@ -62,7 +62,8 @@ class PathfindingVisualizerApp extends Component {
 	}
 
 	handleStart() {
-		let algo = new Bfs(this.state.grid, this.state.start, this.state.finish)
+		let algorithmFactory = new AlgorithmFactory();
+		let algo = algorithmFactory.createAlgorithm(this.state.algorithm, this.state.grid, this.state.start, this.state.finish)
 		let {explored, shortestPath} = algo.solve()
 		let promises = []
 		for (let i = 0; i < explored.length; i++){
