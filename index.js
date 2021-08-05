@@ -6,8 +6,10 @@ function drawBoard() {
 
     let cellSize = 100;
 
-    let row = w / cellSize;
-    let column = h / cellSize;
+    let row = Math.floor(h / cellSize);
+    let column = Math.floor(w / cellSize);
+
+    console.log(row, column);
 
     for (let i = 0; i < row; i++){
         for (let j = 0; j < column; j++){

@@ -1,11 +1,12 @@
 .board {
     height: 900px;
+    width: 1900px;
 }
 
 .cell {
     width: 100px;
     height: 100px;
-    border: 2px solid blue;
+    outline: 2px solid blue;
     float: left;
 }
 
