@@ -14,7 +14,7 @@ function drawBoard() {
     for (let i = 0; i < row; i++){
         for (let j = 0; j < column; j++){
             let cell = document.createElement("div");
-            cell.classList.add("cell", "cell-" + i + "-" + j);
+            cell.classList.add("cell","wall" , "cell-" + i + "-" + j);
             board.appendChild(cell);
             console.log(cell.className);
         }

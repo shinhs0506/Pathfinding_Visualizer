@@ -6,7 +6,26 @@
 .cell {
     width: 100px;
     height: 100px;
-    outline: 2px solid blue;
+    outline: 2px solid black;
     float: left;
 }
 
+.start {
+    background-color: green;
+}
+
+.finish {
+    background-color: red;
+}
+
+.path {
+    background-color: blue;
+}
+
+.explored {
+    background-color: #00FFFF;
+}
+
+.wall {
+    background-color: grey;
+}
