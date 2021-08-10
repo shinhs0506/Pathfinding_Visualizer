@@ -1,3 +1,7 @@
+#wallButton {
+    background-color: white;
+}
+
 .board {
     height: 900px;
     width: 1900px;
