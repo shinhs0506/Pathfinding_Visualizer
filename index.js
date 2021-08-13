@@ -18,7 +18,7 @@ function drawBoard() {
             let cell = document.createElement("div");
             cell.classList.add("cell");
             cell.id = "cell-" + i + "-" + j;
-            //cell.draggable = true;
+            cell.draggable = true;
             if (start[0] == i && start[1] == j) {
                 cell.classList.add("start");
             } else if (finish[0] == i && finish[1] == j) {
@@ -47,8 +47,8 @@ board.onmousedown = function(e) {
     let targetRow = Math.floor(y / 100);
 
     let classString = "cell-" + targetRow  + "-" + targetCol;
-
     let target = document.getElementById(classString);
+    console.log(target.draggable)
     if (isWallCreationSelected && !target.classList.contains("start") && !target.classList.contains("finish")) {
         shouldCreateWall = true;
     } else {
@@ -117,10 +117,16 @@ let isWallCreationSelected = false;
 function toggleCreateWall() {
     isWallCreationSelected = !isWallCreationSelected;
     let button = document.getElementById("wallButton");
-    console.log(button.style.backgroundColor);
+    let cells = document.getElementsByClassName("cell");
     if (button.style.backgroundColor === "white" || button.style.backgroundColor === ""){
         button.style.backgroundColor = "blue"
+        for (let cell of cells){
+            cell.draggable = false;
+        }
     } else {
         button.style.backgroundColor = "white"
+        for (let cell of cells){
+            cell.draggable = true;
+        }
     }
 }
