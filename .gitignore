@@ -7,3 +7,6 @@ Pathfinding_Visualizer
 
 # makefile
 Makefile
+
+# init files specific to wsl2
+init_display.sh
