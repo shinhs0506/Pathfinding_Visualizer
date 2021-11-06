@@ -6,6 +6,8 @@
 #include<iostream>
 using namespace std;
 
+const int CELLSIZE = 20;
+
 class Board : public QWidget {
     
     public:
@@ -17,6 +19,7 @@ class Board : public QWidget {
     private:
         int boardWidth;
         int boardHeight;
+        int cellSize;
 };
 
 Board::Board() {
@@ -25,7 +28,17 @@ Board::Board() {
 }
 
 void Board::paintEvent(QPaintEvent *e) {
-    QRect rect(0, 0, boardWidth, boardHeight);
     QPainter painter(this);
-    painter.fillRect(rect, QColor("white"));
+    QPen pen("white");
+    pen.setWidth(2);
+    painter.setPen(pen);
+
+    int rows = boardHeight / CELLSIZE;
+    int cols = boardWidth / CELLSIZE;
+
+    for (int i = 0; i < rows; i++){
+        for (int j = 0; j < cols; j++){
+            painter.drawRect(j * CELLSIZE, i * CELLSIZE, CELLSIZE, CELLSIZE);
+        }
+    }
 }
