@@ -3,28 +3,31 @@
 #include<QPainter>
 #include<QColor>
 
-#include<iostream>
-using namespace std;
-
 const int CELLSIZE = 20;
 
 class Board : public QWidget {
     
-    public:
-        Board();
+    private:
+        int getBoardWidth();
+        int getBoardHeight();
 
     protected:
         void paintEvent(QPaintEvent *event) override;
 
-    private:
-        int boardWidth;
-        int boardHeight;
-        int cellSize;
+    public:
+        Board();
+
 };
 
 Board::Board() {
-    boardWidth = this->width();
-    boardHeight = this->height(); 
+}
+
+int Board::getBoardHeight() {
+    return this->height();
+}
+
+int Board::getBoardWidth() {
+    return this->width();
 }
 
 void Board::paintEvent(QPaintEvent *e) {
@@ -33,8 +36,8 @@ void Board::paintEvent(QPaintEvent *e) {
     pen.setWidth(2);
     painter.setPen(pen);
 
-    int rows = boardHeight / CELLSIZE;
-    int cols = boardWidth / CELLSIZE;
+    int rows = getBoardHeight() / CELLSIZE;
+    int cols = getBoardWidth() / CELLSIZE;
 
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < cols; j++){
@@ -42,3 +45,4 @@ void Board::paintEvent(QPaintEvent *e) {
         }
     }
 }
+
