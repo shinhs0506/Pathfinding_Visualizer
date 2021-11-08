@@ -5,8 +5,8 @@
 
 #include "Board.cpp"
 
-const int WIDTH = 300;
-const int HEIGHT = 200;
+const int WIDTH = 1000;
+const int HEIGHT = 600;
 
 int main(int argc, char *argv[]){
 
@@ -16,7 +16,8 @@ int main(int argc, char *argv[]){
     QGridLayout *layout = new QGridLayout(&window);
 
     window.setLayout(layout);
-    window.resize(WIDTH, HEIGHT);
+    window.setFixedSize(WIDTH, HEIGHT);
+    window.setWindowFlags(Qt::Widget | Qt::MSWindowsFixedSizeDialogHint);
     window.setWindowTitle("Pathfinding Visualizer");
 
     QPushButton *startButton = new QPushButton("start");
