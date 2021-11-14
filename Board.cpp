@@ -2,6 +2,10 @@
 #include<QRect>
 #include<QPainter>
 #include<QColor>
+#include<QMouseEvent>
+#include<QPoint>
+
+#include<iostream>
 
 const int CELLSIZE = 20;
 
@@ -12,7 +16,8 @@ class Board : public QWidget {
         int getBoardHeight();
 
     protected:
-        void paintEvent(QPaintEvent *event) override;
+        void paintEvent(QPaintEvent *ev) override;
+        void mousePressEvent(QMouseEvent *ev) override;
 
     public:
         Board();
@@ -30,7 +35,7 @@ int Board::getBoardWidth() {
     return this->width();
 }
 
-void Board::paintEvent(QPaintEvent *e) {
+void Board::paintEvent(QPaintEvent *ev) {
     QPainter painter(this);
     QPen pen("white");
     pen.setWidth(2);
@@ -44,5 +49,12 @@ void Board::paintEvent(QPaintEvent *e) {
             painter.drawRect(j * CELLSIZE, i * CELLSIZE, CELLSIZE, CELLSIZE);
         }
     }
+}
+
+void Board::mousePressEvent(QMouseEvent* ev) {
+    const QPoint p = ev->pos();
+    int x = p.x() / CELLSIZE;
+    int y = p.y() / CELLSIZE;
+    std::cout << x << " " << y << std::endl;
 }
 
