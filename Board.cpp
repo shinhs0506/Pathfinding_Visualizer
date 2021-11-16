@@ -12,12 +12,15 @@ const int CELLSIZE = 20;
 class Board : public QWidget {
     
     private:
+        bool isMousePressed;
         int getBoardWidth();
         int getBoardHeight();
 
     protected:
         void paintEvent(QPaintEvent *ev) override;
         void mousePressEvent(QMouseEvent *ev) override;
+        void mouseMoveEvent(QMouseEvent *ev) override;
+        void mouseReleaseEvent(QMouseEvent *ev) override;
 
     public:
         Board();
@@ -25,6 +28,7 @@ class Board : public QWidget {
 };
 
 Board::Board() {
+    isMousePressed = false;
 }
 
 int Board::getBoardHeight() {
@@ -52,9 +56,40 @@ void Board::paintEvent(QPaintEvent *ev) {
 }
 
 void Board::mousePressEvent(QMouseEvent* ev) {
-    const QPoint p = ev->pos();
-    int x = p.x() / CELLSIZE;
-    int y = p.y() / CELLSIZE;
-    std::cout << x << " " << y << std::endl;
+    isMousePressed = true;
+    if (ev->button() == Qt::LeftButton) {
+        const QPoint p = ev->pos();
+        int x = p.x() / CELLSIZE;
+        int y = p.y() / CELLSIZE;
+        std::cout << "left clicked " << x << " " << y << std::endl;
+    } else if (ev->button() == Qt::RightButton) {
+        std::cout << "right clicked " << std::endl;
+    }
 }
 
+void Board::mouseMoveEvent(QMouseEvent* ev) {
+    std::cout << isMousePressed << std::endl;
+    if (!isMousePressed) return;
+    
+    if (ev->buttons() & Qt::LeftButton) {
+        std::cout << "left moved " << std::endl;
+    } else if (ev->buttons() & Qt::RightButton) {
+        const QPoint p = ev->pos();
+        int x = p.x() / CELLSIZE;
+        int y = p.y() / CELLSIZE;
+        std::cout << "right moved " << x << " " << y << std::endl;
+    }
+
+}
+
+void Board::mouseReleaseEvent(QMouseEvent* ev) {
+    isMousePressed = false;
+    if (ev->button() == Qt::LeftButton) {
+        const QPoint p = ev->pos();
+        int x = p.x() / CELLSIZE;
+        int y = p.y() / CELLSIZE;
+        std::cout << "left released " << x << " " << y << std::endl;
+    } else if (ev->button() == Qt::RightButton) {
+        std::cout << "right release " << std::endl;
+    }
+}
