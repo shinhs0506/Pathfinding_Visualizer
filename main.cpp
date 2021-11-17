@@ -29,6 +29,7 @@ int main(int argc, char *argv[]){
     
     Board *board = new Board();
     layout->addWidget(board, 1, 0, -1, -1);
+    board->initialize();
 
     window.show();
 

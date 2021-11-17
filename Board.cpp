@@ -1,3 +1,5 @@
+#include<vector>
+
 #include<QWidget>
 #include<QRect>
 #include<QPainter>
@@ -6,13 +8,21 @@
 #include<QPoint>
 
 #include<iostream>
+using namespace std;
 
 const int CELLSIZE = 20;
+const int START = 1;
+const int FINISH = 2;
+const int WALL = 3;
 
 class Board : public QWidget {
     
     private:
         bool isMousePressed;
+        int rows;
+        int cols;
+        vector<vector<int>> grid;
+
         int getBoardWidth();
         int getBoardHeight();
 
@@ -24,7 +34,7 @@ class Board : public QWidget {
 
     public:
         Board();
-
+        void initialize();
 };
 
 Board::Board() {
@@ -40,17 +50,28 @@ int Board::getBoardWidth() {
 }
 
 void Board::paintEvent(QPaintEvent *ev) {
+    cout << getBoardWidth() << endl;
     QPainter painter(this);
     QPen pen("white");
     pen.setWidth(2);
     painter.setPen(pen);
 
-    int rows = getBoardHeight() / CELLSIZE;
-    int cols = getBoardWidth() / CELLSIZE;
-
+    cout << grid.size() << " " << grid[0].size() << endl;
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < cols; j++){
             painter.drawRect(j * CELLSIZE, i * CELLSIZE, CELLSIZE, CELLSIZE);
+    
+            QColor color;
+            if (grid[i][j] == START) {
+                color = Qt::green;
+            } else if (grid[i][j] == FINISH) {
+                color = Qt::red;
+            } else if (grid[i][j] == WALL) {
+                color = Qt::black;
+            } else {
+                color = Qt::gray;
+            }
+            painter.fillRect(j * CELLSIZE, i * CELLSIZE, CELLSIZE, CELLSIZE, color);
         }
     }
 }
@@ -92,4 +113,17 @@ void Board::mouseReleaseEvent(QMouseEvent* ev) {
     } else if (ev->button() == Qt::RightButton) {
         std::cout << "right release " << std::endl;
     }
+}
+
+void Board::initialize() {
+    cout<< getBoardWidth() << endl;
+    rows = getBoardHeight() / CELLSIZE;
+    cols = getBoardWidth() / CELLSIZE;
+    grid.resize(rows);
+    for (vector<int>& row : grid) {
+        row.resize(cols);
+    }
+    grid[1][1] = START;
+    grid[1][10] = FINISH;
+    this->update();
 }
