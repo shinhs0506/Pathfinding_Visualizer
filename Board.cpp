@@ -11,6 +11,7 @@
 using namespace std;
 
 const int CELLSIZE = 20;
+const int EMPTY = 0;
 const int START = 1;
 const int FINISH = 2;
 const int WALL = 3;
@@ -22,6 +23,9 @@ class Board : public QWidget {
         int rows;
         int cols;
         vector<vector<int>> grid;
+        bool isStartGrabbed;
+        bool isFinishGrabbed;
+        pair<int, int> grabStart;
 
         int getBoardWidth();
         int getBoardHeight();
@@ -39,6 +43,8 @@ class Board : public QWidget {
 
 Board::Board() {
     isMousePressed = false;
+    isStartGrabbed = false;
+    isFinishGrabbed = false;
 }
 
 int Board::getBoardHeight() {
@@ -50,13 +56,11 @@ int Board::getBoardWidth() {
 }
 
 void Board::paintEvent(QPaintEvent *ev) {
-    cout << getBoardWidth() << endl;
     QPainter painter(this);
     QPen pen("white");
     pen.setWidth(2);
     painter.setPen(pen);
 
-    cout << grid.size() << " " << grid[0].size() << endl;
     for (int i = 0; i < rows; i++){
         for (int j = 0; j < cols; j++){
             painter.drawRect(j * CELLSIZE, i * CELLSIZE, CELLSIZE, CELLSIZE);
@@ -80,43 +84,61 @@ void Board::mousePressEvent(QMouseEvent* ev) {
     isMousePressed = true;
     if (ev->button() == Qt::LeftButton) {
         const QPoint p = ev->pos();
-        int x = p.x() / CELLSIZE;
-        int y = p.y() / CELLSIZE;
-        std::cout << "left clicked " << x << " " << y << std::endl;
+        int col = p.x() / CELLSIZE;
+        int row = p.y() / CELLSIZE;
+        if (grid[row][col] == START) {
+            isStartGrabbed = true;
+            grabStart.first = row;
+            grabStart.second = col;
+        } else if (grid[row][col] == FINISH) {
+            isFinishGrabbed = true;
+            grabStart.first = row;
+            grabStart.second = col;
+        }
     } else if (ev->button() == Qt::RightButton) {
-        std::cout << "right clicked " << std::endl;
     }
 }
 
 void Board::mouseMoveEvent(QMouseEvent* ev) {
-    std::cout << isMousePressed << std::endl;
     if (!isMousePressed) return;
     
     if (ev->buttons() & Qt::LeftButton) {
-        std::cout << "left moved " << std::endl;
     } else if (ev->buttons() & Qt::RightButton) {
         const QPoint p = ev->pos();
-        int x = p.x() / CELLSIZE;
-        int y = p.y() / CELLSIZE;
-        std::cout << "right moved " << x << " " << y << std::endl;
+        int col = p.x() / CELLSIZE;
+        int row = p.y() / CELLSIZE;
     }
 
 }
 
 void Board::mouseReleaseEvent(QMouseEvent* ev) {
     isMousePressed = false;
+    if (!this->rect().contains(ev->pos())) {
+        return;
+    }
     if (ev->button() == Qt::LeftButton) {
         const QPoint p = ev->pos();
-        int x = p.x() / CELLSIZE;
-        int y = p.y() / CELLSIZE;
-        std::cout << "left released " << x << " " << y << std::endl;
-    } else if (ev->button() == Qt::RightButton) {
-        std::cout << "right release " << std::endl;
+        int col = p.x() / CELLSIZE;
+        int row = p.y() / CELLSIZE;
+        cout << grabStart.first << " " << grabStart.second << endl;
+        cout << grid[grabStart.first][grabStart.second] << endl;
+        cout << row << " " << col << endl;
+        cout << grid[row][col] << endl;
+        
+        if (isStartGrabbed && grid[row][col] != FINISH) {
+            grid[grabStart.first][grabStart.second] = EMPTY;
+            grid[row][col] = START;
+        } else if (isFinishGrabbed && grid[row][col] != START) {
+            grid[grabStart.first][grabStart.second] = EMPTY;
+            grid[row][col] = FINISH;
+        }
+        isStartGrabbed = false;
+        isFinishGrabbed = false;
     }
+    this->update();
 }
 
 void Board::initialize() {
-    cout<< getBoardWidth() << endl;
     rows = getBoardHeight() / CELLSIZE;
     cols = getBoardWidth() / CELLSIZE;
     grid.resize(rows);
@@ -125,5 +147,4 @@ void Board::initialize() {
     }
     grid[1][1] = START;
     grid[1][10] = FINISH;
-    this->update();
 }
