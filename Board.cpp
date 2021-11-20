@@ -39,6 +39,7 @@ class Board : public QWidget {
     public:
         Board();
         void initialize();
+		void hello();
 };
 
 Board::Board() {
@@ -107,8 +108,11 @@ void Board::mouseMoveEvent(QMouseEvent* ev) {
         const QPoint p = ev->pos();
         int col = p.x() / CELLSIZE;
         int row = p.y() / CELLSIZE;
+		if (grid[row][col] != START && grid[row][col] != FINISH) {
+			grid[row][col] = WALL;
+		}
     }
-
+	this->update();
 }
 
 void Board::mouseReleaseEvent(QMouseEvent* ev) {
