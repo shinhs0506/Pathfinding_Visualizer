@@ -3,7 +3,7 @@
 #include <QPushButton>
 #include <QGridLayout>
 
-#include "Board.cpp"
+#include "Board.h"
 
 const int WIDTH = 1000;
 const int HEIGHT = 600;
@@ -26,12 +26,12 @@ int main(int argc, char *argv[]){
     layout->addWidget(startButton, 0, 0);
     layout->addWidget(clearButton, 0, 1);
     layout->addWidget(resetButton, 0, 2);
-    
+
     Board *board = new Board();
     layout->addWidget(board, 1, 0, -1, -1);
 
     window->show();
     board->initialize();
-    
+
     return app.exec();
 }

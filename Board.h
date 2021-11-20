@@ -1,16 +1,16 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include<vector>
+#include <vector>
 
-#include<QWidget>
-#include<QRect>
-#include<QPainter>
-#include<QColor>
-#include<QMouseEvent>
-#include<QPoint>
+#include <QWidget>
+#include <QRect>
+#include <QPainter>
+#include <QColor>
+#include <QMouseEvent>
+#include <QPoint>
 
-#include<iostream>
+#include <iostream>
 using namespace std;
 
 const int CELLSIZE = 20;
