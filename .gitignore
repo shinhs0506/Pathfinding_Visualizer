@@ -10,3 +10,8 @@ Makefile
 
 # init files specific to wsl2
 init_display.sh
+
+# clangd stuff
+*.cache*
+.clangd/
+compile_commands.json
