@@ -87,10 +87,10 @@ void Board::mouseReleaseEvent(QMouseEvent* ev) {
         cout << row << " " << col << endl;
         cout << grid[row][col] << endl;
         
-        if (isStartGrabbed && grid[row][col] != FINISH) {
+        if (isStartGrabbed && grid[row][col] != FINISH && grid[row][col] != WALL) {
             grid[grabStart.first][grabStart.second] = EMPTY;
             grid[row][col] = START;
-        } else if (isFinishGrabbed && grid[row][col] != START) {
+        } else if (isFinishGrabbed && grid[row][col] != START && grid[row][col] != WALL) {
             grid[grabStart.first][grabStart.second] = EMPTY;
             grid[row][col] = FINISH;
         }
