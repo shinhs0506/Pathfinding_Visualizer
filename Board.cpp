@@ -14,8 +14,9 @@ int Board::getBoardWidth() {
     return this->width();
 }
 
-void Board::paintEvent(QPaintEvent *ev) {
+void Board::paintEvent(QPaintEvent *) {
     QPainter painter(this);
+
     QPen pen("white");
     pen.setWidth(2);
     painter.setPen(pen);
