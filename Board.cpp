@@ -1,3 +1,8 @@
+#include <QTime>
+#include <QCoreApplication>
+#include <QEventLoop>
+
+
 #include "Board.h"
 
 Board::Board() {
@@ -26,12 +31,17 @@ void Board::paintEvent(QPaintEvent *) {
             painter.drawRect(j * CELLSIZE, i * CELLSIZE, CELLSIZE, CELLSIZE);
     
             QColor color;
-            if (grid[i][j] == START) {
+            // TODO: better checking mechanism 
+            if (start.first == i && start.second == j) {
                 color = Qt::green;
-            } else if (grid[i][j] == FINISH) {
+            } else if (finish.first == i && finish.second == j) {
                 color = Qt::red;
             } else if (grid[i][j] == WALL) {
                 color = Qt::black;
+            } else if (grid[i][j] == EXPLORED) {
+                color = Qt::blue;
+            } else if (grid[i][j] == SHORTESTPATH) {
+                color = Qt::darkBlue;
             } else {
                 color = Qt::gray;
             }
@@ -46,11 +56,11 @@ void Board::mousePressEvent(QMouseEvent* ev) {
         const QPoint p = ev->pos();
         int col = p.x() / CELLSIZE;
         int row = p.y() / CELLSIZE;
-        if (grid[row][col] == START) {
+        if (start.first == row && start.second == col) {
             isStartGrabbed = true;
             grabStart.first = row;
             grabStart.second = col;
-        } else if (grid[row][col] == FINISH) {
+        } else if (finish.first == row && finish.second == col) {
             isFinishGrabbed = true;
             grabStart.first = row;
             grabStart.second = col;
@@ -67,7 +77,7 @@ void Board::mouseMoveEvent(QMouseEvent* ev) {
         const QPoint p = ev->pos();
         int col = p.x() / CELLSIZE;
         int row = p.y() / CELLSIZE;
-		if (grid[row][col] != START && grid[row][col] != FINISH) {
+		if (start.first != row && start.second != col && finish.first != row && finish.second != col) {
 			grid[row][col] = WALL;
 		}
     }
@@ -88,12 +98,12 @@ void Board::mouseReleaseEvent(QMouseEvent* ev) {
         cout << row << " " << col << endl;
         cout << grid[row][col] << endl;
         
-        if (isStartGrabbed && grid[row][col] != FINISH && grid[row][col] != WALL) {
-            grid[grabStart.first][grabStart.second] = EMPTY;
-            grid[row][col] = START;
-        } else if (isFinishGrabbed && grid[row][col] != START && grid[row][col] != WALL) {
-            grid[grabStart.first][grabStart.second] = EMPTY;
-            grid[row][col] = FINISH;
+        if (isStartGrabbed && finish.first != row && finish.second != row && grid[row][col] != WALL) {
+            start.first = row;
+            start.second = col;
+        } else if (isFinishGrabbed && start.first != row && start.second != col && grid[row][col] != WALL) {
+            finish.first = row;
+            finish.second = col;
         }
         isStartGrabbed = false;
         isFinishGrabbed = false;
@@ -108,6 +118,43 @@ void Board::initialize() {
     for (vector<int>& row : grid) {
         row.resize(cols);
     }
-    grid[1][1] = START;
-    grid[1][10] = FINISH;
+    // TODO: come up with a better way to initialize these values
+    start.first = 1;
+    start.second = 1;
+    finish.first = 1;
+    finish.second = 10;
+}
+
+vector<vector<int>> Board::getGrid() 
+{
+    return grid;
+}
+
+pair<int, int> Board::getStart() 
+{
+    return start;
+}
+
+pair<int, int> Board::getFinish() 
+{
+    return finish;
+}
+
+void Board::drawPath(Path path) {
+    for (std::pair<int, int> v : path.visited) {
+        QTime dieTime = QTime::currentTime().addMSecs(2);
+        while (QTime::currentTime() < dieTime) {
+            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+        }
+        grid[v.first][v.second] = EXPLORED;
+        this->update();
+    }
+    for (std::pair<int, int> v : path.shortest) {
+        QTime dieTime = QTime::currentTime().addMSecs(2);
+        while (QTime::currentTime() < dieTime) {
+            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+        }
+        grid[v.first][v.second] = SHORTESTPATH;
+        this->update();
+    }
 }
