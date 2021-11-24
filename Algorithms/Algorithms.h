@@ -5,13 +5,12 @@
 #include <utility>
 
 #include "Path.h"
+#include "../Grid.h"
+
 
 class Algorithms {
     public :
-        virtual Path solve(
-                std::vector<std::vector<int>> board, 
-                std::pair<int, int> start, 
-                std::pair<int, int> finish) = 0;
+        virtual Path solve(Grid grid) = 0;
 };
 
 #endif

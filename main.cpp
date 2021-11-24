@@ -5,20 +5,19 @@
 #include <QObject>
 
 #include "Board.h"
-#include "Algorithms/Algorithms.h"
-#include "Algorithms/BFS.cpp"
+#include "Algorithms/BFS.h"
 
 #include <iostream>
 
 const int WIDTH = 1000;
 const int HEIGHT = 600;
 
-Board *b;
+Board* b;
 
 void handleStartClick() {
     cout << "solving" << endl;
     Algorithms* algo = new BFS();
-    Path path = algo->solve(b->getGrid(), b->getStart(), b->getFinish());
+    Path path = algo->solve(b->getGrid());
     b->drawPath(path);
     cout << path.shortest[path.shortest.size() - 1].first << " " << path.shortest[path.shortest.size() - 1].second << endl;
 }

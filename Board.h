@@ -10,6 +10,7 @@
 #include <QMouseEvent>
 #include <QPoint>
 
+#include "Grid.h"
 #include "Algorithms/Path.h"
 
 #include <iostream>
@@ -29,9 +30,10 @@ class Board : public QWidget {
         bool isMousePressed;
         int rows;
         int cols;
-        vector<vector<int>> grid;
-        pair<int, int> start;
-        pair<int, int> finish;
+        //vector<vector<int>> grid;
+        //pair<int, int> start;
+        //pair<int, int> finish;
+        Grid grid;
         bool isStartGrabbed;
         bool isFinishGrabbed;
         pair<int, int> grabStart;
@@ -48,9 +50,9 @@ class Board : public QWidget {
     public:
         Board();
         void initialize();
-        vector<vector<int>> getGrid();
-        pair<int, int> getStart();
-        pair<int, int> getFinish();
+        Grid getGrid();
+        //pair<int, int> getStart();
+        //pair<int, int> getFinish();
         void drawPath(Path path);
 };
 
