@@ -7,11 +7,6 @@ bool BFS::isInbound(std::vector<std::vector<int>> grid, std::pair<int, int> cell
     return true;
 }
 
-bool BFS::isEmpty(std::vector<std::vector<int>> grid, std::pair<int, int> cell) 
-{
-    return grid[cell.first][cell.second] == 0;
-}
-
 Path BFS::solve(Grid grid) 
 {
     std::pair<int, int> start = grid.getStart();
@@ -38,14 +33,13 @@ Path BFS::solve(Grid grid)
 
         std::pair<int, int> last = front[front.size() - 1];
 
-        if (isInbound(board, last) && isEmpty(board, last)) {
+        if (isInbound(board, last) && grid.isEmpty(last.first, last.second)) {
             explored.push_back(last);
-            // TODO: better exploration mechanism
-            board[last.first][last.second] = 1;
+            grid.setExplored(last.first, last.second);
 
             std::cout << "expor " << last.first << " " << last.second << std::endl;
 
-            if (last.first == finish.first && last.second == finish.second) {
+            if (grid.isFinish(last.first, last.second)) {
                 Path successPath = {explored, front};
                 return successPath;
             }

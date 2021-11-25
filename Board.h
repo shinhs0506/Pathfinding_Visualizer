@@ -17,12 +17,6 @@
 using namespace std;
 
 const int CELLSIZE = 20;
-const int EMPTY = 0;
-const int START = 1;
-const int FINISH = 2;
-const int WALL = 3;
-const int EXPLORED = 4;
-const int SHORTESTPATH = 5;
 
 class Board : public QWidget {
     

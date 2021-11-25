@@ -4,6 +4,13 @@
 #include <vector>
 #include <utility>
 
+const int EMPTY = 0;
+const int START = 1;
+const int FINISH = 2;
+const int WALL = 3;
+const int EXPLORED = 4;
+const int SHORTESTPATH = 5;
+
 class Grid {
 
     private:
@@ -13,6 +20,7 @@ class Grid {
 
     public: 
         Grid();
+        bool isEmpty(int row, int col);
         bool isStart(int row, int col);
         bool isFinish(int row, int col);
         bool isWall(int row, int col);

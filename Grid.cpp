@@ -4,6 +4,10 @@ Grid::Grid() {
 
 }
 
+bool Grid::isEmpty(int row, int col) {
+    return grid[row][col] == EMPTY;
+}
+
 bool Grid::isStart(int row, int col){
     return row == start.first && col == start.second;
 }
@@ -13,18 +17,15 @@ bool Grid::isFinish(int row, int col){
 }
 
 bool Grid::isWall(int row, int col){
-    // TODO: expose constants
-    return grid[row][col] == 3;
+    return grid[row][col] == WALL;
 }
 
 bool Grid::isExplored(int row, int col){
-    // TODO: expose constants
-    return grid[row][col] == 4;
+    return grid[row][col] == EXPLORED;
 }
 
 bool Grid::isShortestPath(int row, int col){
-    // TODO: expose constants
-    return grid[row][col] == 5;
+    return grid[row][col] == SHORTESTPATH;
 }
 
 void Grid::setStart(int row, int col){
@@ -38,18 +39,15 @@ void Grid::setFinish(int row, int col){
 }
 
 void Grid::setWall(int row, int col){
-    // TODO: expose constants
-    grid[row][col] = 3;
+    grid[row][col] = WALL;
 }
 
 void Grid::setExplored(int row, int col){
-    // TODO: expose constants
-    grid[row][col] = 4;
+    grid[row][col] = EXPLORED;
 }
 
 void Grid::setShortestPath(int row, int col){
-    // TODO: expose constants
-    grid[row][col] = 5;
+    grid[row][col] = SHORTESTPATH;
 }
 
 void Grid::resize(int rows, int cols) {
