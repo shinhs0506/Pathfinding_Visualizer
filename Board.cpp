@@ -135,3 +135,8 @@ void Board::drawPath(Path path) {
         this->update();
     }
 }
+
+void Board::clear() {
+    this->grid.clear();
+    this->update();
+}

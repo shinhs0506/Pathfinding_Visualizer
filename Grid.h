@@ -26,6 +26,7 @@ class Grid {
         bool isWall(int row, int col);
         bool isExplored(int row, int col);
         bool isShortestPath(int row, int col);
+        void setEmpty(int row, int col);
         void setStart(int row, int col);
         void setFinish(int row, int col);
         void setWall(int row, int col);
@@ -35,6 +36,7 @@ class Grid {
         std::pair<int, int> getFinish();
         std::vector<std::vector<int>> getGrid();
         void resize(int rows, int cols);
+        void clear();
 };
 
 #endif

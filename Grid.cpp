@@ -28,6 +28,9 @@ bool Grid::isShortestPath(int row, int col){
     return grid[row][col] == SHORTESTPATH;
 }
 
+void Grid::setEmpty(int row, int col) {
+    grid[row][col] = EMPTY;
+}
 void Grid::setStart(int row, int col){
     start.first = row;
     start.second = col;
@@ -67,4 +70,14 @@ std::pair<int, int> Grid::getFinish(){
 
 std::vector<std::vector<int>> Grid::getGrid(){
     return grid;
+}
+
+void Grid::clear() {
+    for (int i = 0; i < this->grid.size(); i++) {
+        for (int j = 0; j < this->grid[0].size(); j++){
+            if (isExplored(i, j) || isShortestPath(i, j)) {
+                setEmpty(i, j);
+            }
+        }
+    }
 }
