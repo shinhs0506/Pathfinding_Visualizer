@@ -7,6 +7,7 @@
 
 #include "Board.h"
 #include "Algorithms/BFS.h"
+#include "Algorithms/DFS.h"
 
 class PathfindingVisualizerApplication : public QMainWindow {
 

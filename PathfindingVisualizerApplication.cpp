@@ -6,7 +6,7 @@ PathfindingVisualizerApplication::PathfindingVisualizerApplication() {
 
 void PathfindingVisualizerApplication::handleStartClick() {
     cout << "solving" << endl;
-    Algorithms* algo = new BFS();
+    Algorithms* algo = new DFS();
     Path path = algo->solve(board->getGrid());
     board->drawPath(path);
     cout << path.shortest[path.shortest.size() - 1].first << " " << path.shortest[path.shortest.size() - 1].second << endl;
