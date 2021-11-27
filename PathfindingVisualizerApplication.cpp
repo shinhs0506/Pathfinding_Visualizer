@@ -17,7 +17,7 @@ void PathfindingVisualizerApplication::handleClearClick() {
 }
 
 void PathfindingVisualizerApplication::handleResetClick() {
-
+    board->reset();
 }
 
 void PathfindingVisualizerApplication::launch() {
@@ -35,6 +35,7 @@ void PathfindingVisualizerApplication::launch() {
     QPushButton *resetButton = new QPushButton("reset");
     QObject::connect(startButton, &QPushButton::clicked, this, &PathfindingVisualizerApplication::handleStartClick);
     QObject::connect(clearButton, &QPushButton::clicked, this, &PathfindingVisualizerApplication::handleClearClick);
+    QObject::connect(resetButton, &QPushButton::clicked, this, &PathfindingVisualizerApplication::handleResetClick);
     layout->addWidget(startButton, 0, 0);
     layout->addWidget(clearButton, 0, 1);
     layout->addWidget(resetButton, 0, 2);

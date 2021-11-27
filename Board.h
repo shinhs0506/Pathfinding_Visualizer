@@ -49,6 +49,7 @@ class Board : public QWidget {
         //pair<int, int> getFinish();
         void drawPath(Path path);
         void clear();
+        void reset();
 };
 
 #endif

@@ -81,3 +81,21 @@ void Grid::clear() {
         }
     }
 }
+
+void Grid::reset() {
+    for (int i = 0; i < this->grid.size(); i++){
+        for (int j = 0; j < this->grid[0].size(); j++){
+            setEmpty(i, j);
+        }
+    }
+    resetStart();
+    resetFinish();
+}
+
+void Grid::resetStart() {
+    start = defaultStart;
+}
+
+void Grid::resetFinish() {
+    finish = defaultFinish;
+}

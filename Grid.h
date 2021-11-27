@@ -17,6 +17,8 @@ class Grid {
         std::vector<std::vector<int>> grid;
         std::pair<int, int> start;
         std::pair<int, int> finish;
+        std::pair<int, int> defaultStart = std::make_pair(1, 10);
+        std::pair<int, int> defaultFinish = std::make_pair(10, 10);
 
     public: 
         Grid();
@@ -37,6 +39,9 @@ class Grid {
         std::vector<std::vector<int>> getGrid();
         void resize(int rows, int cols);
         void clear();
+        void reset();
+        void resetStart();
+        void resetFinish();
 };
 
 #endif

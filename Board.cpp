@@ -109,8 +109,8 @@ void Board::initialize() {
     cols = getBoardWidth() / CELLSIZE;
     this->grid.resize(rows, cols);
     // TODO: come up with a better way to initialize these values
-    this->grid.setStart(1, 1);
-    this->grid.setFinish(1, 10);
+    this->grid.resetStart();
+    this->grid.resetFinish();
 }
 
 Grid Board::getGrid() {
@@ -138,5 +138,10 @@ void Board::drawPath(Path path) {
 
 void Board::clear() {
     this->grid.clear();
+    this->update();
+}
+
+void Board::reset() {
+    this->grid.reset();
     this->update();
 }
