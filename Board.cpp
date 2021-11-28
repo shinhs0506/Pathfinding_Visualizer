@@ -9,6 +9,9 @@ Board::Board() {
     isMousePressed = false;
     isStartGrabbed = false;
     isFinishGrabbed = false;
+    int w = getBoardWidth() - (getBoardWidth() % CELLSIZE);
+    int h = getBoardHeight() - (getBoardHeight() % CELLSIZE);
+    setFixedSize(w, h);
 }
 
 int Board::getBoardHeight() {
@@ -70,7 +73,11 @@ void Board::mousePressEvent(QMouseEvent* ev) {
 
 void Board::mouseMoveEvent(QMouseEvent* ev) {
     if (!isMousePressed) return;
-    
+
+    if (!this->rect().contains(ev->pos())) {
+        return;
+    }
+
     if (ev->buttons() & Qt::LeftButton) {
     } else if (ev->buttons() & Qt::RightButton) {
         const QPoint p = ev->pos();
