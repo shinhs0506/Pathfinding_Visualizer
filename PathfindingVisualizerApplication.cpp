@@ -1,7 +1,7 @@
 #include "PathfindingVisualizerApplication.h"
 
 PathfindingVisualizerApplication::PathfindingVisualizerApplication() {
-    QString algorithms = "BFS,DFS";
+    QString algorithms = "BFS,DFS,Random";
     algoList = algorithms.split(",");
     algo = algoFactory->switchAlgo(algoList[0]);
 }
@@ -10,6 +10,9 @@ void PathfindingVisualizerApplication::handleStartClick() {
     cout << "solving" << endl;
     Path path = algo->solve(board->getGrid());
     board->drawPath(path);
+    QMessageBox* messageBox = new QMessageBox(this);
+    messageBox->setText("testing");
+    messageBox->exec();
     //cout << path.shortest[path.shortest.size() - 1].first << " " << path.shortest[path.shortest.size() - 1].second << endl;
 }
 

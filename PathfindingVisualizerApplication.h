@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include <QObject>
+#include <QMessageBox>
 
 #include "Board.h"
 #include "Algorithms/AlgorithmFactory.h"
