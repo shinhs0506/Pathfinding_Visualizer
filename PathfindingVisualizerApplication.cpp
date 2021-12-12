@@ -10,9 +10,11 @@ void PathfindingVisualizerApplication::handleStartClick() {
     cout << "solving" << endl;
     Path path = algo->solve(board->getGrid());
     board->drawPath(path);
-    QMessageBox* messageBox = new QMessageBox(this);
-    messageBox->setText("testing");
-    messageBox->exec();
+
+    Analytics *analytics = new Analytics(this);
+    analytics->show(path);
+    
+
     //cout << path.shortest[path.shortest.size() - 1].first << " " << path.shortest[path.shortest.size() - 1].second << endl;
 }
 

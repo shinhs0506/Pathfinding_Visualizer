@@ -9,6 +9,7 @@
 
 #include "Board.h"
 #include "Algorithms/AlgorithmFactory.h"
+#include "Analytics.h"
 
 class PathfindingVisualizerApplication : public QMainWindow {
 
