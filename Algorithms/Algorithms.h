@@ -4,7 +4,7 @@
 #include <vector>
 #include <utility>
 
-#include "Path.h"
+#include "../Path.h"
 #include "../Grid.h"
 
 

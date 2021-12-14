@@ -125,7 +125,7 @@ Grid Board::getGrid() {
 }
 
 void Board::drawPath(Path path) {
-    for (std::pair<int, int> v : path.visited) {
+    for (std::pair<int, int>& v : path.getVisitedPath()) {
         QTime dieTime = QTime::currentTime().addMSecs(2);
         while (QTime::currentTime() < dieTime) {
             QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
@@ -133,7 +133,7 @@ void Board::drawPath(Path path) {
         this->grid.setExplored(v.first, v.second);
         this->update();
     }
-    for (std::pair<int, int> v : path.shortest) {
+    for (std::pair<int, int>& v : path.getShortestPath()) {
         QTime dieTime = QTime::currentTime().addMSecs(2);
         while (QTime::currentTime() < dieTime) {
             QCoreApplication::processEvents(QEventLoop::AllEvents, 100);

@@ -1,7 +1,7 @@
 #include <QWidget>
 #include <QMessageBox>
 
-#include "Algorithms/Path.h"
+#include "Path.h"
 
 class Analytics {
     private:

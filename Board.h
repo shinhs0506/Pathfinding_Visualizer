@@ -11,7 +11,7 @@
 #include <QPoint>
 
 #include "Grid.h"
-#include "Algorithms/Path.h"
+#include "Path.h"
 
 #include <iostream>
 using namespace std;
