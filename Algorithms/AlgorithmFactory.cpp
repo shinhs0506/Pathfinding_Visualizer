@@ -13,6 +13,9 @@ Algorithms* AlgorithmFactory::switchAlgo(QString str) {
     } else if (algoStr == "DFS") {
         std::cout << "DFS selected " << std::endl;
         algo = new DFS();
+    } else if (algoStr == "Random") {
+        std::cout << "Random selected" << std::endl;
+        algo = new Random();
     }
     return algo;
 }
