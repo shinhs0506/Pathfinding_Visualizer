@@ -17,6 +17,7 @@ Path Random::solve(Grid grid){
     std::vector<std::pair<int, int>> dirs = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
 
     q.push({start});
+    grid.setExplored(start.first, start.second);
     while (!q.empty()) {
         std::vector<std::pair<int, int>> front = q.front();
         q.pop();
