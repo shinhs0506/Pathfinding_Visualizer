@@ -11,12 +11,8 @@ Path DFS::solve(Grid grid)
     //std::cout << start.first << " " << start.second << std::endl;
     //std::cout << finish.first << " " << finish.second << std::endl;
 
-    for (std::pair<int, int> dir : Utility::dirs) {
-        std::pair<int, int> neighbour;
-        neighbour.first = start.first + dir.first;
-        neighbour.second = start.second + dir.second;
-        s.push({neighbour});
-    }
+    s.push({start});
+    grid.setExplored(start.first, start.second);
 
     while (!s.empty()) {
         std::vector<std::pair<int, int>> front = s.top();
@@ -24,24 +20,26 @@ Path DFS::solve(Grid grid)
 
         std::pair<int, int> last = front[front.size() - 1];
 
-        if (Utility::isInbound(board, last) && grid.isEmpty(last.first, last.second)) {
-            explored.push_back(last);
-            grid.setExplored(last.first, last.second);
+        if (grid.isFinish(last.first, last.second)) {
+            Path successPath = {explored, front};
+            return successPath;
+        }
 
-            std::cout << "expor " << last.first << " " << last.second << std::endl;
+        for (std::pair<int, int> dir : Utility::dirs) {
+            std::pair<int, int> neighbour;
+            neighbour.first = last.first + dir.first;
+            neighbour.second = last.second + dir.second;
 
-            if (grid.isFinish(last.first, last.second)) {
-                Path successPath = {explored, front};
-                return successPath;
-            }
-            for (std::pair<int, int> dir : Utility::dirs) {
-                std::pair<int, int> neighbour;
-                neighbour.first = last.first + dir.first;
-                neighbour.second = last.second + dir.second;
-
+            if (Utility::isInbound(board, neighbour) && grid.isEmpty(neighbour.first, neighbour.second)) {
                 std::vector<std::pair<int, int>> newFront(front);
                 newFront.push_back(neighbour);
                 s.push(newFront);
+
+                explored.push_back(last);
+                grid.setExplored(last.first, last.second);
+
+                std::cout << "expor " << last.first << " " << last.second << std::endl;
+
             }
         }
     }
