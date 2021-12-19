@@ -8,9 +8,6 @@
 #include <iostream>
 
 class BFS : public Algorithms {
-    private:
-        bool isInbound(std::vector<std::vector<int>> grid, std::pair<int, int> cell);
-
     public:
         Path solve(Grid grid) override;
 };

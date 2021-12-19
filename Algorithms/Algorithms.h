@@ -6,6 +6,7 @@
 
 #include "../Path.h"
 #include "../Grid.h"
+#include "Utility.h"
 
 
 class Algorithms {
