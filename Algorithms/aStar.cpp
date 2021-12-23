@@ -1,11 +1,31 @@
 #include "aStar.h"
+#include <limits>
+#include <utility>
 
-AStar::Node::Node(int x, int y, int g, int h, int f) {
-    this->x = x;
-    this->y = y;
+AStar::Node::Node(int r, int c, int g, int h, int f, std::pair<int, int> parent) {
+    this->r = r;
+    this->c = c;
     this->g = g;
     this->h = h;
     this->f = f;
+    this->p = parent;
+}
+
+bool AStar::Node::operator!= (const Node& b) {
+    return this->r == b.r && this->c == b.c;
+} 
+
+std::vector<std::pair<int, int>> AStar::generatePath(std::vector<std::vector<Node>> closedList, Node n) {
+    Node curr = n;
+    Node parent = closedList[curr.p.first][curr.p.second];
+    std::vector<std::pair<int, int>> res;
+    while (parent != curr) {
+        res.push_back(std::make_pair(curr.r, curr.c));
+        curr = parent;
+        parent = closedList[parent.p.first][parent.p.second];
+    }
+    
+    return res;
 }
 
 Path AStar::solve(Grid grid) {
@@ -19,9 +39,27 @@ Path AStar::solve(Grid grid) {
     using h = std::hash<int>;
     int size = board.size();
     // TODO: come up with a better hash function
-    auto hash = [](const Node& n) {return h()(n.x) + (h()(n.y) * 100);};
-    auto equal = [](const Node& a, const Node& b) {return a.x == b.x && a.y == b.y;};
-    std::unordered_set<Node, decltype(hash), decltype(equal)> closedSet(10, hash, equal);
+    //auto hash = [](const Node& n) {return h()(n.x) + (h()(n.y) * 100);};
+    //auto equal = [](const Node& a, const Node& b) {return a.x == b.x && a.y == b.y;};
+    //std::unordered_set<Node, decltype(hash), decltype(equal)> closedSet(10, hash, equal);
+    // visited list
+    std::vector<std::pair<int, int>> visited;
+    std::vector<std::vector<Node>> closedList;
+    for (int i = 0; i < board.size(); i++) {
+        std::vector<Node> row;
+        for (int j = 0; j < board[0].size(); j++) {
+            Node n (i, j, 0, std::numeric_limits<int>::max(), std::numeric_limits<int>::max(), std::make_pair(-1, -1));
+            row.push_back(n);
+        } 
+        closedList.push_back(row);
+    }
+
+    int startEuclidean = euclideanDistance(start.first, start.second, finish.first, finish.second);
+    Node startNode = closedList[start.first][start.second];
+    startNode.f = 0;
+    startNode.g = startEuclidean;
+    startNode.h = startNode.f + startNode.g;
+    openSet.insert(startNode);
 
     while(!openSet.empty()) {
         std::set<Node>::iterator frontIt = openSet.begin();
@@ -29,31 +67,47 @@ Path AStar::solve(Grid grid) {
         openSet.erase(frontIt);
 
         for (std::pair<int, int> dir : Utility::dirs) {
-            Node neighbour;
-            neighbour.x = front.x + dir.first;
-            neighbour.y = front.y + dir.second;
+            int r = front.r + dir.first;
+            int c = front.c + dir.second;
+            Node neighbour = closedList[r][c];
 
-            if (grid.isFinish(neighbour.x, neighbour.y)) {
-                // return result;
+            if (grid.isWall(r, c)) {
+                continue;
             }
 
-            neighbour.g = front.g + 1;
-            neighbour.h = euclideanDistance(neighbour.x, neighbour.y, finish.first ,finish.second);
-            neighbour.f = neighbour.g + neighbour.h;
+            visited.push_back(std::make_pair(r, c));
+
+            if (grid.isFinish(r, c)) {
+                // return result;
+                std::vector<std::pair<int, int>> shortest = generatePath(closedList, front);
+                return { shortest, visited };
+            }
+
+            int neighbourCost = front.g + 1;
 
             std::set<Node>::iterator openIt = openSet.find(neighbour);
-            if (openIt != openSet.end() && openIt->f < neighbour.f) {
-                continue;    
-            }
-
-            std::unordered_set<Node>::iterator closedIt = closedSet.find(neighbour);
-            if (closedIt != closedSet.end() && closedIt->f < neighbour.f) {
-                continue;
+            Node closedIt = closedList[r][c];
+            if (openIt != openSet.end()) {
+                if (openIt->g < neighbourCost) {
+                    continue;    
+                }
+            } else if (closedIt.g != std::numeric_limits<int>::max()) {
+                if (closedIt.g < neighbourCost) {
+                    continue;
+                } else {
+                    openSet.insert(closedIt);
+                }
             } else {
                 openSet.insert(neighbour);
+                neighbour.h = euclideanDistance(neighbour.r, neighbour.c, finish.first ,finish.second);
             }
-        } 
 
-        closedSet.insert(front);
+            neighbour.g = neighbourCost;
+            neighbour.f = neighbour.g + neighbour.h;
+            neighbour.p = std::make_pair(front.r, front.c); 
+        } 
     }
+
+    // failed
+    return { {}, visited };
 }

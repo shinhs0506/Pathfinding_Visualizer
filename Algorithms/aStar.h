@@ -3,6 +3,7 @@
 
 #include <set>
 #include <unordered_set>
+#include <limits>
 
 #include "Algorithms.h"
 
@@ -10,14 +11,18 @@ class AStar : public Algorithms {
     private:
         class Node {
             public:
-                int x;
-                int y;
+                int r;
+                int c;
                 int g;
                 int h;
                 int f;
+                std::pair<int, int> p;
                 Node();
-                Node(int x, int y, int g, int h, int f);
+                Node(int r, int c, int g, int h, int f, std::pair<int, int> p);
+                bool operator!=(const Node& b);
         };
+        std::vector<std::pair<int, int>> generatePath(std::vector<std::vector<Node>> closedList, Node n);
+
     public: 
         Path solve(Grid grid);
 };
