@@ -6,6 +6,7 @@
 #include "BFS.h"
 #include "DFS.h"
 #include "Random.h"
+#include "aStar.h"
 
 #include <iostream>
 

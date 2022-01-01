@@ -7,19 +7,23 @@
 
 #include "Algorithms.h"
 
+#include <iostream>
+
 class AStar : public Algorithms {
     private:
         class Node {
             public:
                 int r;
                 int c;
-                int g;
-                int h;
-                int f;
+                double g;
+                double h;
+                double f;
                 std::pair<int, int> p;
                 Node();
-                Node(int r, int c, int g, int h, int f, std::pair<int, int> p);
+                Node(int r, int c, double g, double h, double f, std::pair<int, int> p);
                 bool operator!=(const Node& b);
+                bool operator==(const Node& b);
+                //bool operator<(const Node& b);
         };
         std::vector<std::pair<int, int>> generatePath(std::vector<std::vector<Node>> closedList, Node n);
 

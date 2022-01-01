@@ -1,7 +1,7 @@
 #include "PathfindingVisualizerApplication.h"
 
 PathfindingVisualizerApplication::PathfindingVisualizerApplication() {
-    QString algorithms = "BFS,DFS,Random";
+    QString algorithms = "BFS,DFS,Random,AStar";
     algoList = algorithms.split(",");
     algo = algoFactory->switchAlgo(algoList[0]);
 }

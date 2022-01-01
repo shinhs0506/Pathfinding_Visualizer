@@ -16,6 +16,9 @@ Algorithms* AlgorithmFactory::switchAlgo(QString str) {
     } else if (algoStr == "Random") {
         std::cout << "Random selected" << std::endl;
         algo = new Random();
+    } else if (algoStr == "AStar") {
+        std::cout << "AStar selected" << std::endl;
+        algo = new AStar();
     }
     return algo;
 }
