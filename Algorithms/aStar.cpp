@@ -1,4 +1,5 @@
 #include "aStar.h"
+#include <utility>
 
 AStar::Node::Node(int r, int c, double g, double h, double f, std::pair<int, int> parent) {
     this->r = r;
@@ -23,6 +24,7 @@ std::vector<std::pair<int, int>> AStar::generatePath(std::vector<std::vector<Nod
         curr = parent;
         parent = closedList[parent.p.first][parent.p.second];
     }
+    res.push_back(std::make_pair(curr.r, curr.c));
     
     return res;
 }
@@ -82,6 +84,8 @@ Path AStar::solve(Grid grid) {
                 // return result;
                 std::cout << " finished " << std::endl;
                 std::vector<std::pair<int, int>> shortest = generatePath(closedList, front);
+                shortest.push_back(std::make_pair(start.first, start.second));
+                reverse(shortest.begin(), shortest.end());
                 return { visited, shortest };
             }
 
