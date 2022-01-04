@@ -11,9 +11,10 @@ void PathfindingVisualizerApplication::handleStartClick() {
     Path path = algo->solve(board->getGrid());
     board->drawPath(path);
 
-    Analytics *analytics = new Analytics(this);
-    analytics->show(path);
-    
+    if (checkBox->isChecked()) {
+        Analytics *analytics = new Analytics(this);
+        analytics->show(path);
+    }
 
     //cout << path.shortest[path.shortest.size() - 1].first << " " << path.shortest[path.shortest.size() - 1].second << endl;
 }
@@ -55,8 +56,12 @@ void PathfindingVisualizerApplication::launch() {
     layout->addWidget(clearButton, 0, 2);
     layout->addWidget(resetButton, 0, 3);
 
+    checkBox = new QCheckBox("Show Analytics", this);
+    checkBox->setChecked(defaultAnalyticsToggleState);
+    layout->addWidget(checkBox, 1, 3);
+
     board = new Board();
-    layout->addWidget(board, 1, 0, -1, -1);
+    layout->addWidget(board, 2, 0, -1, -1);
 
 
     window->show();

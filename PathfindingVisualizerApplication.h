@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <QComboBox>
 #include <QPushButton>
+#include <QCheckBox>
 #include <QGridLayout>
 #include <QObject>
 #include <QMessageBox>
@@ -21,6 +22,9 @@ class PathfindingVisualizerApplication : public QMainWindow {
         AlgorithmFactory *algoFactory;
         QStringList algoList;
         Algorithms *algo;
+
+        const bool defaultAnalyticsToggleState = true;
+        QCheckBox* checkBox;
 
     private slots:
         void handleStartClick();
