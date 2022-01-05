@@ -1,5 +1,21 @@
 #include "PathfindingVisualizerApplication.h"
 
+void PathfindingVisualizerApplication::disableButtons() {
+    checkBox->setEnabled(false);    
+    algorithmSelector->setEnabled(false);    
+    startButton->setEnabled(false);    
+    clearButton->setEnabled(false);    
+    resetButton->setEnabled(false);    
+}
+
+void PathfindingVisualizerApplication::enableButtons() {
+    checkBox->setEnabled(true);    
+    algorithmSelector->setEnabled(true);    
+    startButton->setEnabled(true);    
+    clearButton->setEnabled(true);    
+    resetButton->setEnabled(true);    
+}
+
 PathfindingVisualizerApplication::PathfindingVisualizerApplication() {
     QString algorithms = "BFS,DFS,Random,AStar";
     algoList = algorithms.split(",");
@@ -7,7 +23,9 @@ PathfindingVisualizerApplication::PathfindingVisualizerApplication() {
 }
 
 void PathfindingVisualizerApplication::handleStartClick() {
+    disableButtons();
     cout << "solving" << endl;
+
     Path path = algo->solve(board->getGrid());
     board->drawPath(path);
 
@@ -16,6 +34,7 @@ void PathfindingVisualizerApplication::handleStartClick() {
         analytics->show(path);
     }
 
+    enableButtons();
     //cout << path.shortest[path.shortest.size() - 1].first << " " << path.shortest[path.shortest.size() - 1].second << endl;
 }
 
@@ -41,14 +60,14 @@ void PathfindingVisualizerApplication::launch() {
     window->setWindowFlags(Qt::Widget | Qt::MSWindowsFixedSizeDialogHint);
     window->setWindowTitle("Pathfinding Visualizer");
 
-    QComboBox *algorithmSelector = new QComboBox(window);
+    algorithmSelector = new QComboBox(window);
     algorithmSelector->addItems(algoList);
     connect(algorithmSelector, SIGNAL(currentTextChanged(QString)), this, SLOT(itemChanged(QString)));
     layout->addWidget(algorithmSelector, 0, 0);
 
-    QPushButton *startButton = new QPushButton("start");
-    QPushButton *clearButton = new QPushButton("clear");
-    QPushButton *resetButton = new QPushButton("reset");
+    startButton = new QPushButton("start");
+    clearButton = new QPushButton("clear");
+    resetButton = new QPushButton("reset");
     QObject::connect(startButton, &QPushButton::clicked, this, &PathfindingVisualizerApplication::handleStartClick);
     QObject::connect(clearButton, &QPushButton::clicked, this, &PathfindingVisualizerApplication::handleClearClick);
     QObject::connect(resetButton, &QPushButton::clicked, this, &PathfindingVisualizerApplication::handleResetClick);

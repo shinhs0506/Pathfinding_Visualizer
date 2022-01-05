@@ -25,6 +25,13 @@ class PathfindingVisualizerApplication : public QMainWindow {
 
         const bool defaultAnalyticsToggleState = true;
         QCheckBox* checkBox;
+        QComboBox* algorithmSelector;
+        QPushButton* startButton;
+        QPushButton* clearButton;
+        QPushButton* resetButton;
+
+        void disableButtons();
+        void enableButtons();
 
     private slots:
         void handleStartClick();
