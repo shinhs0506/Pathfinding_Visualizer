@@ -99,3 +99,12 @@ void Grid::resetStart() {
 void Grid::resetFinish() {
     finish = defaultFinish;
 }
+
+void Grid::swap(int fromRow, int fromCol, int toRow, int toCol) {
+    int fromVal = grid[fromRow][fromCol];
+    int toVal = grid[toRow][toCol];
+    if (toVal != WALL) {
+        grid[toRow][toCol] = fromVal;
+        grid[fromRow][fromCol] = toVal;
+    }
+}
