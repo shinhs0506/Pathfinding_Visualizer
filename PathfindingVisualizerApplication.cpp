@@ -56,6 +56,7 @@ void PathfindingVisualizerApplication::launch() {
     QGridLayout *layout = new QGridLayout(window);
 
     window->setLayout(layout);
+    setCentralWidget(window);
     window->setFixedSize(WIDTH, HEIGHT);
     window->setWindowFlags(Qt::Widget | Qt::MSWindowsFixedSizeDialogHint);
     window->setWindowTitle("Pathfinding Visualizer");
@@ -82,8 +83,7 @@ void PathfindingVisualizerApplication::launch() {
     board = new Board();
     layout->addWidget(board, 2, 0, -1, -1);
 
-
-    window->show();
+    show();
     board->initialize();
 }
 

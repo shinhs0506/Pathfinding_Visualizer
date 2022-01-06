@@ -9,9 +9,6 @@ Board::Board() {
     isMousePressed = false;
     isStartGrabbed = false;
     isFinishGrabbed = false;
-    int w = getBoardWidth() - (getBoardWidth() % CELLSIZE);
-    int h = getBoardHeight() - (getBoardHeight() % CELLSIZE);
-    setFixedSize(w, h);
 }
 
 int Board::getBoardHeight() {
