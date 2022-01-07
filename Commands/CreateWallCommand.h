@@ -4,8 +4,11 @@
 #include "Command.h"
 
 class CreateWallCommand: public Command {
+    private:
+        std::vector<std::pair<int, int>> points;
+
     public:
-        CreateWallCommand();
+        CreateWallCommand(std::vector<std::pair<int, int>> points);
         void execute() override;
 };
 
