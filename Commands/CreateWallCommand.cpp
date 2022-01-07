@@ -1,6 +1,7 @@
 #include "CreateWallCommand.h"
 
-CreateWallCommand::CreateWallCommand(std::vector<std::pair<int, int>> points) {
+CreateWallCommand::CreateWallCommand(Grid *grid, std::vector<std::pair<int, int>> points) {
+    this->grid = grid;
     this->points = points;
 }
 

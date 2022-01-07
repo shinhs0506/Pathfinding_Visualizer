@@ -50,12 +50,15 @@ void Board::paintEvent(QPaintEvent *) {
 void Board::mousePressEvent(QMouseEvent* ev) {
     isMousePressed = true;
 
+    const QPoint p = ev->pos();
+    int col = p.x() / CELLSIZE;
+    int row = p.y() / CELLSIZE;
+
+    std::pair<int, int> point = std::make_pair(row, col);
     if (ev->button() == Qt::LeftButton) {
-        const QPoint p = ev->pos();
-        int col = p.x() / CELLSIZE;
-        int row = p.y() / CELLSIZE;
-        start = std::make_pair(row, col);
+        start = point;
     } else if (ev->button() == Qt::RightButton) {
+        walls.push_back(point);    
     }
 }
 
@@ -66,16 +69,17 @@ void Board::mouseMoveEvent(QMouseEvent* ev) {
         return;
     }
 
+    const QPoint p = ev->pos();
+    int col = p.x() / CELLSIZE;
+    int row = p.y() / CELLSIZE;
+
     if (ev->buttons() & Qt::LeftButton) {
+
     } else if (ev->buttons() & Qt::RightButton) {
-        const QPoint p = ev->pos();
-        int col = p.x() / CELLSIZE;
-        int row = p.y() / CELLSIZE;
 		if (!this->grid->isStart(row, col) && !this->grid->isFinish(row, col)) {
-            this->grid->setWall(row, col);
+            walls.push_back(std::make_pair(row, col));
 		}
     }
-	this->update();
 }
 
 void Board::mouseReleaseEvent(QMouseEvent* ev) {
@@ -93,6 +97,10 @@ void Board::mouseReleaseEvent(QMouseEvent* ev) {
         finish = std::make_pair(row, col);
         movePointCommand = new MovePointCommand(grid, this->start, this->finish);
         movePointCommand->execute();
+    } else if (ev->button() == Qt::RightButton) {
+        createWallCommand = new CreateWallCommand(grid, this->walls);
+        createWallCommand->execute();
+        this->walls.clear();
     }
     this->update();
 }

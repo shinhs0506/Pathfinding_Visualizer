@@ -29,6 +29,7 @@ class Board : public QWidget {
         int cols;
         pair<int, int> start;
         pair<int, int> finish;
+        std::vector<pair<int, int>> walls;
         Grid* grid = new Grid();
         Command *createWallCommand = NULL;
         Command *movePointCommand = NULL;
