@@ -11,7 +11,7 @@ class MovePointCommand: public Command {
         int toCol;
 
     public:
-        MovePointCommand(int fromRow, int fromCol, int toRow, int toCol);
+        MovePointCommand(Grid *grid, std::pair<int ,int> from, std::pair<int, int> to);
         void execute() override;
 };
 

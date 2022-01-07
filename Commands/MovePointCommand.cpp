@@ -1,12 +1,13 @@
 #include "MovePointCommand.h"
 
-MovePointCommand::MovePointCommand(int fromRow, int fromCol, int toRow, int toCol) {
-    this->fromRow = fromRow;
-    this->fromCol = fromCol;
-    this->toRow = toRow;
-    this->toCol = toCol;
+MovePointCommand::MovePointCommand(Grid *grid, std::pair<int, int> from, std::pair<int ,int> to) {
+    this->grid = grid;
+    this->fromRow = from.first;
+    this->fromCol = from.second;
+    this->toRow = to.first;
+    this->toCol = to.second;
 }
 
 void MovePointCommand::execute() {
-    grid->swap(fromRow, fromCol, toRow, toCol);
+    grid->move(fromRow, fromCol, toRow, toCol);
 }

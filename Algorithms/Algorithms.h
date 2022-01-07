@@ -11,7 +11,7 @@
 
 class Algorithms {
     public :
-        virtual Path solve(Grid grid) = 0;
+        virtual Path solve(Grid *grid) = 0;
 };
 
 #endif

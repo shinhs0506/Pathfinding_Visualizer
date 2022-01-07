@@ -29,10 +29,10 @@ std::vector<std::pair<int, int>> AStar::generatePath(std::vector<std::vector<Nod
     return res;
 }
 
-Path AStar::solve(Grid grid) {
-    std::pair<int, int> start = grid.getStart();
-    std::pair<int, int> finish = grid.getFinish();
-    std::vector<std::vector<int>> board = grid.getGrid();
+Path AStar::solve(Grid *grid) {
+    std::pair<int, int> start = grid->getStart();
+    std::pair<int, int> finish = grid->getFinish();
+    std::vector<std::vector<int>> board = grid->getGrid();
 
     // open list
     auto compare = [](const Node& a, const Node& b) {return a.f > b.f; };
@@ -69,7 +69,7 @@ Path AStar::solve(Grid grid) {
             int r = front.r + dir.first;
             int c = front.c + dir.second;
 
-            if (!Utility::isInbound(board, std::make_pair(r ,c)) || grid.isWall(r, c)) {
+            if (!Utility::isInbound(board, std::make_pair(r ,c)) || grid->isWall(r, c)) {
                 continue;
             }
             if (explored[r][c]) continue;
@@ -80,7 +80,7 @@ Path AStar::solve(Grid grid) {
 
             Node& neighbour = closedList[r][c];
 
-            if (grid.isFinish(r, c)) {
+            if (grid->isFinish(r, c)) {
                 // return result;
                 std::cout << " finished " << std::endl;
                 std::vector<std::pair<int, int>> shortest = generatePath(closedList, front);

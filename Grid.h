@@ -42,7 +42,7 @@ class Grid {
         void reset();
         void resetStart();
         void resetFinish();
-        void swap(int fromRow, int fromCol, int toRow, int toCol);
+        void move(int fromRow, int fromCol, int toRow, int toCol);
 };
 
 #endif

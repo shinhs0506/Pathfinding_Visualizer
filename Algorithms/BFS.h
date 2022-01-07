@@ -9,7 +9,7 @@
 
 class BFS : public Algorithms {
     public:
-        Path solve(Grid grid) override;
+        Path solve(Grid *grid) override;
 };
 
 #endif

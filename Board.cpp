@@ -7,8 +7,6 @@
 
 Board::Board() {
     isMousePressed = false;
-    isStartGrabbed = false;
-    isFinishGrabbed = false;
 }
 
 int Board::getBoardHeight() {
@@ -31,15 +29,15 @@ void Board::paintEvent(QPaintEvent *) {
             painter.drawRect(j * CELLSIZE, i * CELLSIZE, CELLSIZE, CELLSIZE);
     
             QColor color;
-            if (this->grid.isStart(i, j)) {
+            if (this->grid->isStart(i, j)) {
                 color = Qt::green;
-            } else if (this->grid.isFinish(i, j)) {
+            } else if (this->grid->isFinish(i, j)) {
                 color = Qt::red;
-            } else if (this->grid.isWall(i, j)) {
+            } else if (this->grid->isWall(i, j)) {
                 color = Qt::black;
-            } else if (this->grid.isExplored(i, j)) {
+            } else if (this->grid->isExplored(i, j)) {
                 color = Qt::blue;
-            } else if (this->grid.isShortestPath(i, j)) {
+            } else if (this->grid->isShortestPath(i, j)) {
                 color = Qt::darkBlue;
             } else {
                 color = Qt::gray;
@@ -51,19 +49,12 @@ void Board::paintEvent(QPaintEvent *) {
 
 void Board::mousePressEvent(QMouseEvent* ev) {
     isMousePressed = true;
+
     if (ev->button() == Qt::LeftButton) {
         const QPoint p = ev->pos();
         int col = p.x() / CELLSIZE;
         int row = p.y() / CELLSIZE;
-        if (this->grid.isStart(row, col)) {
-            isStartGrabbed = true;
-            grabStart.first = row;
-            grabStart.second = col;
-        } else if (this->grid.isFinish(row, col)) {
-            isFinishGrabbed = true;
-            grabStart.first = row;
-            grabStart.second = col;
-        }
+        start = std::make_pair(row, col);
     } else if (ev->button() == Qt::RightButton) {
     }
 }
@@ -80,8 +71,8 @@ void Board::mouseMoveEvent(QMouseEvent* ev) {
         const QPoint p = ev->pos();
         int col = p.x() / CELLSIZE;
         int row = p.y() / CELLSIZE;
-		if (!this->grid.isStart(row, col) && !this->grid.isFinish(row, col)) {
-            this->grid.setWall(row, col);
+		if (!this->grid->isStart(row, col) && !this->grid->isFinish(row, col)) {
+            this->grid->setWall(row, col);
 		}
     }
 	this->update();
@@ -89,21 +80,19 @@ void Board::mouseMoveEvent(QMouseEvent* ev) {
 
 void Board::mouseReleaseEvent(QMouseEvent* ev) {
     isMousePressed = false;
+
     if (!this->rect().contains(ev->pos())) {
         return;
     }
+
     if (ev->button() == Qt::LeftButton) {
         const QPoint p = ev->pos();
         int col = p.x() / CELLSIZE;
         int row = p.y() / CELLSIZE;
         
-        if (isStartGrabbed && !this->grid.isFinish(row, col) && !this->grid.isWall(row, col)) {
-            this->grid.setStart(row, col);
-        } else if (isFinishGrabbed && !this->grid.isStart(row, col) && !this->grid.isWall(row, col)) {
-            this->grid.setFinish(row, col);
-        }
-        isStartGrabbed = false;
-        isFinishGrabbed = false;
+        finish = std::make_pair(row, col);
+        movePointCommand = new MovePointCommand(grid, this->start, this->finish);
+        movePointCommand->execute();
     }
     this->update();
 }
@@ -111,13 +100,13 @@ void Board::mouseReleaseEvent(QMouseEvent* ev) {
 void Board::initialize() {
     rows = getBoardHeight() / CELLSIZE;
     cols = getBoardWidth() / CELLSIZE;
-    this->grid.resize(rows, cols);
+    this->grid->resize(rows, cols);
     // TODO: come up with a better way to initialize these values
-    this->grid.resetStart();
-    this->grid.resetFinish();
+    this->grid->resetStart();
+    this->grid->resetFinish();
 }
 
-Grid Board::getGrid() {
+Grid* Board::getGrid() {
     return this->grid;
 }
 
@@ -127,7 +116,7 @@ void Board::drawPath(Path path) {
         while (QTime::currentTime() < dieTime) {
             QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
         }
-        this->grid.setExplored(v.first, v.second);
+        this->grid->setExplored(v.first, v.second);
         this->update();
     }
     for (std::pair<int, int>& v : path.getShortestPath()) {
@@ -135,17 +124,17 @@ void Board::drawPath(Path path) {
         while (QTime::currentTime() < dieTime) {
             QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
         }
-        this->grid.setShortestPath(v.first, v.second);
+        this->grid->setShortestPath(v.first, v.second);
         this->update();
     }
 }
 
 void Board::clear() {
-    this->grid.clear();
+    this->grid->clear();
     this->update();
 }
 
 void Board::reset() {
-    this->grid.reset();
+    this->grid->reset();
     this->update();
 }

@@ -31,6 +31,7 @@ bool Grid::isShortestPath(int row, int col){
 void Grid::setEmpty(int row, int col) {
     grid[row][col] = EMPTY;
 }
+
 void Grid::setStart(int row, int col){
     start.first = row;
     start.second = col;
@@ -100,11 +101,16 @@ void Grid::resetFinish() {
     finish = defaultFinish;
 }
 
-void Grid::swap(int fromRow, int fromCol, int toRow, int toCol) {
-    int fromVal = grid[fromRow][fromCol];
+void Grid::move(int fromRow, int fromCol, int toRow, int toCol) {
     int toVal = grid[toRow][toCol];
+    
     if (toVal != WALL) {
-        grid[toRow][toCol] = fromVal;
-        grid[fromRow][fromCol] = toVal;
+        if (isStart(fromRow, fromCol) && !isFinish(toRow, toCol)) {
+            this->setStart(toRow, toCol);
+        }
+        if (isFinish(fromRow, fromCol) && !isStart(toRow, toCol)) {
+            this->setFinish(toRow, toCol);
+        }
     }
+
 }

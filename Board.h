@@ -10,8 +10,11 @@
 #include <QMouseEvent>
 #include <QPoint>
 
+#include "Commands/Command.h"
 #include "Grid.h"
 #include "Path.h"
+#include "Commands/CreateWallCommand.h"
+#include "Commands/MovePointCommand.h"
 
 #include <iostream>
 using namespace std;
@@ -24,13 +27,11 @@ class Board : public QWidget {
         bool isMousePressed;
         int rows;
         int cols;
-        //vector<vector<int>> grid;
-        //pair<int, int> start;
-        //pair<int, int> finish;
-        Grid grid;
-        bool isStartGrabbed;
-        bool isFinishGrabbed;
-        pair<int, int> grabStart;
+        pair<int, int> start;
+        pair<int, int> finish;
+        Grid* grid = new Grid();
+        Command *createWallCommand = NULL;
+        Command *movePointCommand = NULL;
 
         int getBoardWidth();
         int getBoardHeight();
@@ -44,7 +45,7 @@ class Board : public QWidget {
     public:
         Board();
         void initialize();
-        Grid getGrid();
+        Grid* getGrid();
         //pair<int, int> getStart();
         //pair<int, int> getFinish();
         void drawPath(Path path);

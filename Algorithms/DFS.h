@@ -12,7 +12,7 @@ class DFS : public Algorithms {
         bool isInbound(std::vector<std::vector<int>> grid, std::pair<int, int> cell);
 
     public:
-        Path solve(Grid grid) override;
+        Path solve(Grid *grid) override;
 };
 
 #endif

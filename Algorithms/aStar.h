@@ -26,7 +26,7 @@ class AStar : public Algorithms {
         std::vector<std::pair<int, int>> generatePath(std::vector<std::vector<Node>> closedList, Node n);
 
     public: 
-        Path solve(Grid grid);
+        Path solve(Grid *grid);
 };
 
 #endif
