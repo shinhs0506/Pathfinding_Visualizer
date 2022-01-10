@@ -97,9 +97,11 @@ void Board::mouseReleaseEvent(QMouseEvent* ev) {
         finish = std::make_pair(row, col);
         movePointCommand = new MovePointCommand(grid, this->start, this->finish);
         movePointCommand->execute();
+        commandHistory->push(movePointCommand); 
     } else if (ev->button() == Qt::RightButton) {
         createWallCommand = new CreateWallCommand(grid, this->walls);
         createWallCommand->execute();
+        commandHistory->push(createWallCommand); 
         this->walls.clear();
     }
     this->update();
@@ -145,4 +147,12 @@ void Board::clear() {
 void Board::reset() {
     this->grid->reset();
     this->update();
+}
+
+void Board::undo() {
+    this->commandHistory->pop();
+}
+
+void Board::clearHistory() {
+    this->commandHistory->reset();
 }

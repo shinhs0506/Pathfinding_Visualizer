@@ -15,6 +15,7 @@
 #include "Path.h"
 #include "Commands/CreateWallCommand.h"
 #include "Commands/MovePointCommand.h"
+#include "Commands/CommandHistory.h"
 
 #include <iostream>
 using namespace std;
@@ -33,6 +34,7 @@ class Board : public QWidget {
         Grid* grid = new Grid();
         Command *createWallCommand = NULL;
         Command *movePointCommand = NULL;
+        CommandHistory *commandHistory = new CommandHistory();
 
         int getBoardWidth();
         int getBoardHeight();
@@ -52,6 +54,8 @@ class Board : public QWidget {
         void drawPath(Path path);
         void clear();
         void reset();
+        void undo();
+        void clearHistory();
 };
 
 #endif
