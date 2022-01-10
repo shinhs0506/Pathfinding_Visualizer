@@ -150,7 +150,9 @@ void Board::reset() {
 }
 
 void Board::undo() {
+    this->clear();
     this->commandHistory->pop();
+    this->update();
 }
 
 void Board::clearHistory() {

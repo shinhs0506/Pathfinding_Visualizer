@@ -29,6 +29,7 @@ class PathfindingVisualizerApplication : public QMainWindow {
         QPushButton* startButton;
         QPushButton* clearButton;
         QPushButton* resetButton;
+        QPushButton* undoButton;
 
         void disableButtons();
         void enableButtons();
@@ -37,6 +38,7 @@ class PathfindingVisualizerApplication : public QMainWindow {
         void handleStartClick();
         void handleClearClick();
         void handleResetClick();
+        void handleUndoClick();
         void itemChanged(QString str);
 
     public:

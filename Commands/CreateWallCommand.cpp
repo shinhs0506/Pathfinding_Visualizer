@@ -10,3 +10,9 @@ void CreateWallCommand::execute() {
         grid->setWall(point.first, point.second);
     }
 }
+
+void CreateWallCommand::unexecute() {
+    for (std::pair<int, int> &point: points) {
+        grid->setEmpty(point.first, point.second);
+    }
+}

@@ -11,3 +11,7 @@ MovePointCommand::MovePointCommand(Grid *grid, std::pair<int, int> from, std::pa
 void MovePointCommand::execute() {
     grid->move(fromRow, fromCol, toRow, toCol);
 }
+
+void MovePointCommand::unexecute() {
+    grid->move(toRow, toCol, fromRow, fromCol);
+}

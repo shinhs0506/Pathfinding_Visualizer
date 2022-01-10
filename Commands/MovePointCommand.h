@@ -13,6 +13,7 @@ class MovePointCommand: public Command {
     public:
         MovePointCommand(Grid *grid, std::pair<int ,int> from, std::pair<int, int> to);
         void execute() override;
+        void unexecute() override;
 };
 
 #endif

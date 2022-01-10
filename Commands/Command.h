@@ -8,6 +8,7 @@ class Command {
         Grid* grid;
     public:
         virtual void execute() = 0;
+        virtual void unexecute() = 0;
 };
 
 #endif

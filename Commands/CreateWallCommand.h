@@ -10,6 +10,7 @@ class CreateWallCommand: public Command {
     public:
         CreateWallCommand(Grid* grid, std::vector<std::pair<int, int>> points);
         void execute() override;
+        void unexecute() override;
 };
 
 #endif

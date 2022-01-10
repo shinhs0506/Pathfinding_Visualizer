@@ -6,6 +6,7 @@ void PathfindingVisualizerApplication::disableButtons() {
     startButton->setEnabled(false);    
     clearButton->setEnabled(false);    
     resetButton->setEnabled(false);    
+    undoButton->setEnabled(false);    
 }
 
 void PathfindingVisualizerApplication::enableButtons() {
@@ -14,6 +15,7 @@ void PathfindingVisualizerApplication::enableButtons() {
     startButton->setEnabled(true);    
     clearButton->setEnabled(true);    
     resetButton->setEnabled(true);    
+    undoButton->setEnabled(true);    
 }
 
 PathfindingVisualizerApplication::PathfindingVisualizerApplication() {
@@ -46,6 +48,10 @@ void PathfindingVisualizerApplication::handleResetClick() {
     board->reset();
 }
 
+void PathfindingVisualizerApplication::handleUndoClick() {
+    board->undo();
+}
+
 void PathfindingVisualizerApplication::itemChanged(QString str) {
     algo = algoFactory->switchAlgo(str);
 }
@@ -69,12 +75,15 @@ void PathfindingVisualizerApplication::launch() {
     startButton = new QPushButton("start");
     clearButton = new QPushButton("clear");
     resetButton = new QPushButton("reset");
+    undoButton = new QPushButton("undo");
     QObject::connect(startButton, &QPushButton::clicked, this, &PathfindingVisualizerApplication::handleStartClick);
     QObject::connect(clearButton, &QPushButton::clicked, this, &PathfindingVisualizerApplication::handleClearClick);
     QObject::connect(resetButton, &QPushButton::clicked, this, &PathfindingVisualizerApplication::handleResetClick);
+    QObject::connect(undoButton, &QPushButton::clicked, this, &PathfindingVisualizerApplication::handleUndoClick);
     layout->addWidget(startButton, 0, 1);
     layout->addWidget(clearButton, 0, 2);
     layout->addWidget(resetButton, 0, 3);
+    layout->addWidget(undoButton, 1, 2);
 
     checkBox = new QCheckBox("Show Analytics", this);
     checkBox->setChecked(defaultAnalyticsToggleState);

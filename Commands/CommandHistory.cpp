@@ -15,7 +15,7 @@ void CommandHistory::pop() {
 
     Command* command = s.top();
     s.pop();
-    //command->undo();
+    command->unexecute();
 }
 
 void CommandHistory::reset() {
