@@ -1,6 +1,6 @@
 # Pathfinding Visualizer
 
-![](sample_video.mkv)
+![](sample.gif)
 
 # TODOs
 - functionality to erase walls
