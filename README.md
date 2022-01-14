@@ -1,5 +1,7 @@
 # Pathfinding Visualizer
 
+simple pathfinding visualizer written in C++ using Qt5
+
 ![](sample.gif)
 
 # Install and Run

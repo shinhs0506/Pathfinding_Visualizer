@@ -1,10 +1,10 @@
-#!bin/bash
+#!/bin/bash
 
 # install build essential 
 sudo apt-get install build-essential -y
 
 # install qt5
-sudo apt-get install qt5-default=5.12.8 -y
+sudo apt-get install qt5-default -y
 
 # initialize qt project
 qmake -project
